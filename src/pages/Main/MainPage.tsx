@@ -1,21 +1,29 @@
-import { Cell, Image, List, Section } from "@telegram-apps/telegram-ui";
+import { Avatar, FixedLayout, Headline, List } from "@telegram-apps/telegram-ui";
 import { FC } from "react";
-import { Link } from "../../Link/Link";
-import tonSvg from './ton.svg';
+import { useInitData } from "@telegram-apps/sdk-react";
+import { Link } from "@/Link/Link";
+import './Main.css'
+import { DisplayWalletAddress } from "@/components/DisplayWallet/DisplayWallet";
 
 export const MainPage: FC = () => {
+    const initData = useInitData();
+    const userAvatarUrl = initData?.user?.photoUrl;
+    const username = initData?.user?.username;
+
     return (
-        <List>
-            <Section header='Features'>
-                <Link to='/ton-connect'>
-                    <Cell
-                        before={<Image src={tonSvg} style={{ backgroundColor: '#007AFF' }}/>}
-                        subtitle='Connect your TON wallet'>
-                        TON Connect
-                    </Cell>
-                </Link>
-                <Link to='/init-data'><Cell>Init Data</Cell></Link>
-            </Section>
-        </List>
+        <FixedLayout style={{padding: 16}} vertical="top">
+            <div className="main-list">
+                <div className="main-wallet">
+                    <DisplayWalletAddress></DisplayWalletAddress>
+                </div>
+                <div className="avatar">
+                    <Avatar size={96} src={userAvatarUrl}></Avatar>
+                    <Headline>{username}</Headline>
+                </div>
+            </div>
+            <Link to='features'>Features</Link>
+        </FixedLayout>
+
+
     )
 }

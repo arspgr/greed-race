@@ -1,5 +1,4 @@
-import { Text } from "@telegram-apps/telegram-ui";
-import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
 import { FC } from "react";
 
 export const DisplayWalletAddress: FC = () => {
@@ -12,6 +11,6 @@ export const DisplayWalletAddress: FC = () => {
     }
 
     return (
-        <Text>{address}</Text>
+        <TonConnectButton className='ton-connect-page__button-connected'/>
     );
 }

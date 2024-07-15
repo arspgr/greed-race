@@ -1,7 +1,7 @@
 import { Link } from "@/Link/Link";
 import { Cell, Image, List, Section } from "@telegram-apps/telegram-ui";
 import { FC } from "react";
-import tonSvg from './ton.svg';
+import tonSvg from '@/images/ton.svg';
 
 export const FeaturesPage: FC = () => {
     return (

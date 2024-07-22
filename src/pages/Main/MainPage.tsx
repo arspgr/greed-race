@@ -34,7 +34,7 @@ export const MainPage: FC = () => {
                 <img src={greedRaceImage}></img>
                 <div className="text-usual">starts in: 28:42:12:39 sec</div>
             </div>
-            <Tabbar>
+            <Tabbar style={{ padding: '2.5vw' }}>
                 {tabs.map((t) => <Tabbar.Item key={t.key} text={t.text} selected={currentTab === t.text} onClick={() => setCurrentTab(t.text)}>
                     <Image src={t.image} size={48} className={t.class}></Image>
                 </Tabbar.Item>)}

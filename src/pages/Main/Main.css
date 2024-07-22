@@ -19,6 +19,7 @@
     --tgui--surface_primary: transparent;
     --tgui--tertiary_bg_color: transparent;
     --tgui--caption1--font_size: 3vw;
+    --tgui--caption1--line_height: 3vw;
 }
 
 .next-greed {

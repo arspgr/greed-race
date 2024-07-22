@@ -30,7 +30,7 @@ if (import.meta.env.DEV) {
         language_code: 'en',
         is_premium: true,
         allows_write_to_pm: true,
-        photo_url: 'https://avatars.githubusercontent.com/u/84640980?v=4'
+        photo_url: '' //https://avatars.githubusercontent.com/u/84640980?v=4
       })],
       ['hash', '89d6079ad6762351f38c6dbbc41bb53048019256a9443988af7a48bcad16ba31'],
       ['auth_date', '1716922846'],

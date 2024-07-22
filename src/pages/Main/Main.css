@@ -1,21 +1,54 @@
 .avatar {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2vh;
-}
-
-.main-list {
-    display: flex;
-    flex-direction: column;
     gap: 1vh;
+    align-items: center;
 }
 
-.main-wallet {
+.main-header {
     display: flex;
-    align-self: flex-end;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .main-container {
-    margin: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    --tgui--secondary_hint_color: #fff;
+    --tgui--surface_primary: transparent;
+    --tgui--tertiary_bg_color: transparent;
+    --tgui--caption1--font_size: 3vw;
+}
+
+.next-greed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 8vh;
+}
+
+.next-greed img {
+    width: 220px;
+    height: 240px;
+}
+
+.text-headline {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.text-usual {
+    font-size: var(--tgui--caption1--font_size);
+    font-weight: 600;
+}
+
+.tab-main {
+    color: #fff;
+}
+
+.inverted {
+    filter:invert(100%)
 }

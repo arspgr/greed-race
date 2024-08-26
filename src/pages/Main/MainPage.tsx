@@ -1,4 +1,4 @@
-import { Avatar, Cell, FixedLayout, Headline, Image, List, Section, Tabbar, Title } from "@telegram-apps/telegram-ui";
+import { Avatar, Button, Cell, FixedLayout, Headline, Image, List, Section, Tabbar, Title } from "@telegram-apps/telegram-ui";
 import { FC, useMemo, useState } from "react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { Link } from "@/Link/Link";
@@ -8,6 +8,9 @@ import greedRaceImage from '@/images/greed-race.png';
 import homeImage from '@/images/home.svg';
 import questionImage from '@/images/question.svg';
 import ticketImage from '@/images/ticket.svg';
+import { useAuth } from "@/api/Auth/Auth";
+import { sendTransaction } from "@/api/ton/ton";
+import { useTonConnectUI } from "@tonconnect/ui-react";
 
 export const MainPage: FC = () => {
     const initData = useInitData();
@@ -19,6 +22,9 @@ export const MainPage: FC = () => {
          {key: "how", text: "How it works", image: questionImage, class: "inverted"}, 
          {key: "tickets", text: "My tickets", image: ticketImage}];
     const [currentTab, setCurrentTab] = useState(tabs[0].key);
+
+    const { isAuthorized } = useAuth();
+    const [ tonConnectUI ] = useTonConnectUI();
 
     return (
         <div className="main-container">
@@ -34,12 +40,13 @@ export const MainPage: FC = () => {
                 <img src={greedRaceImage}></img>
                 <div className="text-usual">starts in: 28:42:12:39 sec</div>
             </div>
-            <Tabbar style={{ padding: '2.5vw' }}>
+            <Tabbar style={{ padding: '2.5vw', margin: '0 0 1.5vw 0' }}>
                 {tabs.map((t) => <Tabbar.Item key={t.key} text={t.text} selected={currentTab === t.text} onClick={() => setCurrentTab(t.text)}>
                     <Image src={t.image} size={48} className={t.class}></Image>
                 </Tabbar.Item>)}
             </Tabbar>
             <Link to='features'>Features</Link>
+            <Button onClick={() => sendTransaction(tonConnectUI)}>TEST</Button>
 
 {/*             
             <List>

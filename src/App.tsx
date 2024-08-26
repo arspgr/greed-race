@@ -4,6 +4,7 @@ import { AppRoot } from "@telegram-apps/telegram-ui";
 import { FC, useEffect, useMemo } from "react";
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { routes } from "./routes/routes";
+import { ApiProvider } from "./api/ApiProvider";
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -51,12 +52,14 @@ export const App: FC = () => {
     <AppRoot
       appearance='dark'
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}>
-        <Router location={location} navigator={reactNavigator}>
-        <Routes>
-          {routes.map((route) => <Route key={route.path} {...route} />)}
-          <Route path='*' element={<Navigate to='/'/>}/>
-        </Routes>
-      </Router>
+        <ApiProvider>
+          <Router location={location} navigator={reactNavigator}>
+            <Routes>
+              {routes.map((route) => <Route key={route.path} {...route} />)}
+              <Route path='*' element={<Navigate to='/'/>}/>
+            </Routes>
+          </Router>
+        </ApiProvider>
     </AppRoot>
   );
 }

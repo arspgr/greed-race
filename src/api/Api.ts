@@ -1,12 +1,14 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { axiosClient } from "./axios/axiosClient";
 import { AxiosError } from "axios";
 import { Account, TonProofItemReplySuccess } from "@tonconnect/ui-react";
 import { GetSessionResponse } from "@/models/getSessionResponse";
 import { GetTokenResponse } from "@/models/getTokenResponse";
+import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 
 export interface Api {
-    getSession(): Promise<string>;
+    getActiveGame(): Promise<GetActiveGameResponse>;
+    verifyTicket(body: { gameId: string }): Promise<void>;
 }
 
 export interface AuthApi {
@@ -61,20 +63,40 @@ export function useAuthApi(): AuthApi {
 }
 
 export function useApi(token?: string): Api {
-    const getSession = useCallback(
+    const headers = useMemo(
+        () => ({
+            Authorization: `Bearer ${token}`
+        }),
+        [token]
+    );
+
+    const getActiveGame = useCallback(
         async () => {
             try {
-                const response = await axiosClient.post<string>(`/auth/session`);
+                const response = await axiosClient.get<GetActiveGameResponse>('/api/game/active', { headers });
 
                 return response.data;
             } catch (error) {
                 throw wrapError(error);
             }
         },
-        []
+        [headers]
     );
 
-    return { getSession };
+    const verifyTicket = useCallback(
+        async (body: { gameId: string }) => {
+            try {
+                const response = await axiosClient.post<void>(`api/ticket/verify`, body, { headers });
+
+                return response.data;
+            } catch (error) {
+                throw wrapError(error);
+            }
+        },
+        [headers]
+    )
+
+    return { getActiveGame, verifyTicket };
 }
 
 function wrapError(error: unknown) {

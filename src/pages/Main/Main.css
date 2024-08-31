@@ -22,6 +22,11 @@
     --tgui--caption1--line_height: 3vw;
 }
 
+.main-img {
+    width: 220px;
+    height: 240px;
+}
+
 .next-greed {
     display: flex;
     justify-content: center;
@@ -31,10 +36,6 @@
     margin-top: 8vh;
 }
 
-.next-greed img {
-    width: 220px;
-    height: 240px;
-}
 
 .text-headline {
     font-size: 30px;

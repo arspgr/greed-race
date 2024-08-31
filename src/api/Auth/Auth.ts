@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAuthApi } from "../Api";
 import { useTonConnectUI } from "@tonconnect/ui-react";
+import { useQuery } from "@tanstack/react-query";
 
 export interface Auth {
     isAuthorized: boolean;
@@ -18,6 +19,10 @@ export function useAuth(): Auth {
     const api = useAuthApi();
 
     useEffect(() => {
+        if (isAuthorized) {
+            return;
+        }
+
         const token = getToken();
         if (!token) {
             tonConnectUI.setConnectRequestParameters({
@@ -39,6 +44,28 @@ export function useAuth(): Auth {
             setToken(token);
         }
 
+        if (!token) {
+            const testAuth = import.meta.env.VITE_TEST_AUTH;
+            if (testAuth) {
+                const testAuthObj = JSON.parse(testAuth);
+                api.getToken({
+                    domain: testAuthObj.proof.domain,
+                    payload: testAuthObj.proof.payload,
+                    signature: testAuthObj.proof.signature,
+                    timestamp: testAuthObj.proof.timestamp,
+                }, {
+                    address: testAuthObj.address,
+                    chain: testAuthObj.network,
+                    walletStateInit: testAuthObj.proof.stateInit,
+                    publicKey: testAuthObj.publicKey
+                }).then(response => {
+                    saveTokenToLocalStorage(response.token);
+                    setAuthorized(true);
+                    setToken(response.token);
+                });
+            }
+        }
+       
         return tonConnectUI.onStatusChange(wallet => {
             if (wallet?.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
                 api.getToken(wallet.connectItems.tonProof.proof, wallet.account).then(response => {

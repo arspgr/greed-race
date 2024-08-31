@@ -5,6 +5,7 @@ import { FC, useEffect, useMemo } from "react";
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { ApiProvider } from "./api/ApiProvider";
+import { AuthProvider } from "./api/Auth/AuthProvider";
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -52,6 +53,7 @@ export const App: FC = () => {
     <AppRoot
       appearance='dark'
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}>
+        <AuthProvider>
         <ApiProvider>
           <Router location={location} navigator={reactNavigator}>
             <Routes>
@@ -60,6 +62,8 @@ export const App: FC = () => {
             </Routes>
           </Router>
         </ApiProvider>
+        </AuthProvider>
+
     </AppRoot>
   );
 }

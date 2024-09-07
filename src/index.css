@@ -1,13 +1,30 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Joystix Monospace';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: 'Joystix Monospace';
+  src: url('fonts/JoystixMonospace-Regular.eot');
+  src: local('Joystix Monospace'), local('JoystixMonospace-Regular'),
+      url('fonts/JoystixMonospace-Regular.eot?#iefix') format('embedded-opentype'),
+      url('fonts/JoystixMonospace-Regular.woff2') format('woff2'),
+      url('fonts/JoystixMonospace-Regular.woff') format('woff'),
+      url('fonts/JoystixMonospace-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Joystix Proportional';
+  src: url('fonts/JoystixProportional-Regular.eot');
+  src: local('Joystix Proportional'), local('JoystixProportional-Regular'),
+      url('fonts/JoystixProportional-Regular.eot?#iefix') format('embedded-opentype'),
+      url('fonts/JoystixProportional-Regular.woff2') format('woff2'),
+      url('fonts/JoystixProportional-Regular.woff') format('woff'),
+      url('fonts/JoystixProportional-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }

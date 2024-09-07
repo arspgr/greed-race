@@ -5,7 +5,7 @@ import { TonConnectUI } from "@tonconnect/ui-react";
 
 export async function buyTicket(tonConnectUI: TonConnectUI, asset: Asset, api: Api, gameId: string) {
     const txResp = await sendTransaction(tonConnectUI, asset);
-    console.log(txResp);
+    console.log(txResp.boc);
 
-    await api.verifyTicket({ gameId });
+    await api.verifyTicket({ gameId, boc: txResp.boc });
 }

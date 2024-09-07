@@ -8,7 +8,7 @@ import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 
 export interface Api {
     getActiveGame(): Promise<GetActiveGameResponse>;
-    verifyTicket(body: { gameId: string }): Promise<void>;
+    verifyTicket(body: { gameId: string, boc: string }): Promise<void>;
 }
 
 export interface AuthApi {

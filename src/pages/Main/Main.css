@@ -23,8 +23,8 @@
 }
 
 .main-img {
-    width: 220px;
-    height: 240px;
+    width: 200px;
+    height: 190px;
 }
 
 .next-greed {
@@ -44,7 +44,7 @@
 
 .text-usual {
     font-size: var(--tgui--caption1--font_size);
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .tab-main {

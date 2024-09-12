@@ -3,7 +3,6 @@ import greedRaceImage from '@/images/greed-race.png';
 import crown from '@/images/crown.png';
 import moneyBag from '@/images/money-bag.png';
 import stackOfCoins from '@/images/stack-of-coins.png';
-import buyTicketBtn from '@/images/buy-ticket-btn.png';
 import './DisplayGame.css';
 import { useGameService } from "@/services/game-service";
 import { Button, Spinner } from "@telegram-apps/telegram-ui";
@@ -15,7 +14,7 @@ import { ApiContext } from "@/api/ApiProvider";
 export const DisplayGame: FC = () => {
     const { activeGame, loading } = useGameService();
     const [ tonConnectUI ] = useTonConnectUI();
-    const api = useContext(ApiContext);
+    const { paymentApi } = useContext(ApiContext);
 
     return (
         <>
@@ -36,7 +35,7 @@ export const DisplayGame: FC = () => {
                     <div className="text-usual">{activeGame.prize.major.value.toString()}x <img className="prize-icon" src={moneyBag}></img> MAJOR PRIZES {activeGame.prize.major.cnt.toString()}</div>
                     <div className="text-usual">{activeGame.prize.minor.value.toString()}x <img className="prize-icon" src={stackOfCoins}></img> MINOR PRIZES {activeGame.prize.minor.cnt.toString()}</div>
                     <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div>
-                    <Button onClick={() => buyTicket(tonConnectUI, activeGame.asset, api, activeGame._id)}>BUY TICKET FOR {activeGame.ticketPrice}</Button>
+                    <Button onClick={() => buyTicket(tonConnectUI, activeGame.asset, paymentApi, activeGame._id)}>BUY TICKET FOR {activeGame.ticketPrice}</Button>
                 </>
             ) : null
         }

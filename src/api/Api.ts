@@ -6,9 +6,17 @@ import { GetSessionResponse } from "@/models/getSessionResponse";
 import { GetTokenResponse } from "@/models/getTokenResponse";
 import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 
-export interface Api {
+export interface PaymentApi {
+    verifyTicket(gameId: string, boc: string): Promise<void>;
+}
+
+export interface GeneralApi {
     getActiveGame(): Promise<GetActiveGameResponse>;
-    verifyTicket(body: { gameId: string, boc: string }): Promise<void>;
+}
+
+export interface Api {
+    paymentApi: PaymentApi;
+    generalApi: GeneralApi;
 }
 
 export interface AuthApi {
@@ -59,15 +67,40 @@ export function useAuthApi(): AuthApi {
         []
     );
 
-    return { getSession, getToken: getToken };
+    return { getSession, getToken };
 }
 
-export function useApi(token?: string): Api {
+export function usePaymentApi(userId: number, token?: string): PaymentApi {
     const headers = useMemo(
         () => ({
+            User: userId,
             Authorization: `Bearer ${token}`
         }),
-        [token]
+        [userId, token]
+    );
+
+    const verifyTicket = useCallback(
+        async (gameId: string, boc: string) => {
+            try {
+                const response = await axiosClient.post<void>(`api/ticket/verify`, { gameId, boc }, { headers });
+
+                return response.data;
+            } catch (error) {
+                throw wrapError(error);
+            }
+        },
+        [headers]
+    );
+
+    return { verifyTicket };
+}
+
+export function useGeneralApi(userId: number): GeneralApi {
+    const headers = useMemo(
+        () => ({
+            User: userId
+        }),
+        [userId]
     );
 
     const getActiveGame = useCallback(
@@ -83,20 +116,7 @@ export function useApi(token?: string): Api {
         [headers]
     );
 
-    const verifyTicket = useCallback(
-        async (body: { gameId: string }) => {
-            try {
-                const response = await axiosClient.post<void>(`api/ticket/verify`, body, { headers });
-
-                return response.data;
-            } catch (error) {
-                throw wrapError(error);
-            }
-        },
-        [headers]
-    )
-
-    return { getActiveGame, verifyTicket };
+    return { getActiveGame };
 }
 
 function wrapError(error: unknown) {

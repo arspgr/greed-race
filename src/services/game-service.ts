@@ -9,11 +9,11 @@ export interface GameService {
 }
 
 export function useGameService(): GameService {
-    const api = useContext(ApiContext);
+    const { generalApi } = useContext(ApiContext);
 
     const result = useQuery({
         queryKey: ['activeGame'],
-        queryFn: () => api.getActiveGame(),
+        queryFn: () => generalApi.getActiveGame(),
     });
 
     return {

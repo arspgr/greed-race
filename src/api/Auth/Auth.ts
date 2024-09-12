@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuthApi } from "../Api";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import { useQuery } from "@tanstack/react-query";
 
 export interface Auth {
     isAuthorized: boolean;
@@ -9,16 +8,26 @@ export interface Auth {
 }
 
 const tokenItemName = 'token';
-const tokenTtl = 60 * 60 * 1000;
+const tokenTtl = 12 * 60 * 60 * 1000;
 
 export function useAuth(): Auth {
     const [isAuthorized, setAuthorized] = useState(false);
     const [token, setToken] = useState<string | undefined>(undefined);
     const [tonConnectUI] = useTonConnectUI();
+    const [connectionRestored, setConnectionRestored] = useState(false);
 
     const api = useAuthApi();
 
     useEffect(() => {
+        tonConnectUI.connectionRestored.then(() => {
+            setConnectionRestored(true);
+        }).catch(() => setConnectionRestored(true));
+    }, []);
+
+    useEffect(() => {
+        if (!connectionRestored) {
+            return;
+        }
         if (isAuthorized) {
             return;
         }
@@ -66,8 +75,9 @@ export function useAuth(): Auth {
                 });
             }
         }
-       
+
         return tonConnectUI.onStatusChange(wallet => {
+            console.log("wallet status", wallet);
             if (wallet?.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
                 api.getToken(wallet.connectItems.tonProof.proof, wallet.account).then(response => {
                     saveTokenToLocalStorage(response.token);
@@ -76,7 +86,7 @@ export function useAuth(): Auth {
                 });
             }
         });
-    }, []);
+    }, [connectionRestored]);
 
     return { isAuthorized, token };
 }

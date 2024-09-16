@@ -32,9 +32,9 @@ export const MainPage: FC = () => {
             <div className="next-greed">
                 <DisplayGame></DisplayGame>
 
-                <Tabbar style={{ padding: '2.5vw 2.5vw 4vw 2.5vw', background: 'black' }}>
-                    {tabs.map((t) => <Tabbar.Item key={t.key} text={t.text} selected={currentTab === t.text} onClick={() => setCurrentTab(t.text)}>
-                        <Image src={t.image} size={48} className={t.class}></Image>
+                <Tabbar style={{ padding: '1.5vh 2.5vw 4vh 2.5vw', background: 'black' }}>
+                    {tabs.map((t) => <Tabbar.Item key={t.key} text={t.text} selected={currentTab === t.text} onClick={() => setCurrentTab(t.text)} style={{ padding: 0 }}>
+                        <Image src={t.image} size={28} className={t.class}></Image>
                     </Tabbar.Item>)}
                 </Tabbar>
 

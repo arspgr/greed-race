@@ -34,7 +34,8 @@ export function useAuth(): Auth {
 
         const token = getToken();
         if (!token) {
-            tonConnectUI.disconnect();
+            if (tonConnectUI.connected)
+                tonConnectUI.disconnect();
             tonConnectUI.setConnectRequestParameters({
                 state: 'loading'
             });

@@ -8,7 +8,7 @@
 }
 
 .welcome-to {
-    color: #FD86D5;
+    color: var(--header_main_color);
 }
 
 .next-draw {

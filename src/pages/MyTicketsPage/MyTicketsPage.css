@@ -1,0 +1,44 @@
+.my-tickets-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.my-tickets-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 8vh;
+}
+
+.my-tickets-header {
+    color: var(--header_main_color);
+    margin-bottom: 3vh;
+}
+
+.total-profit {
+    margin-bottom: 2vh;
+}
+
+.ticket-item {
+    display: flex;
+    border: 1px solid var(--header_main_color);
+    border-radius: 8px;
+    padding: 1.2vh;
+    gap: 2vw;
+}
+
+.ticket-result {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
+
+.ticket-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    font-family: 'Joystix Proportional';
+}

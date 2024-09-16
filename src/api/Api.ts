@@ -5,6 +5,7 @@ import { Account, TonProofItemReplySuccess } from "@tonconnect/ui-react";
 import { GetSessionResponse } from "@/models/getSessionResponse";
 import { GetTokenResponse } from "@/models/getTokenResponse";
 import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
+import { GetUserTicketsResponse } from "@/models/getUserTicketsResponse";
 
 export interface PaymentApi {
     verifyTicket(gameId: string, boc: string): Promise<void>;
@@ -12,6 +13,7 @@ export interface PaymentApi {
 
 export interface GeneralApi {
     getActiveGame(): Promise<GetActiveGameResponse>;
+    getUserTickets(): Promise<GetUserTicketsResponse>;
 }
 
 export interface Api {
@@ -116,7 +118,36 @@ export function useGeneralApi(userId: number): GeneralApi {
         [headers]
     );
 
-    return { getActiveGame };
+    // const getUserTickets = useCallback(
+    //     async () => {
+    //         await new Promise<void>(resolve => setTimeout(() => {
+    //             resolve();
+    //         }, 1000));
+    //         return {
+    //             tickets: [
+    //                 { id: '345234', status: 'Active', result: 'Not started' },
+    //                 { id: '634534', status: 'Archive', result: '+234 TON' },
+    //                 { id: '364356', status: 'Archive', result: 'No prize' }
+    //             ]
+    //         };
+    //     },
+    //     []
+    // );
+
+    const getUserTickets = useCallback(
+        async () => {
+            try {
+                const response = await axiosClient.get<GetUserTicketsResponse>(`/api/user/tickets`, { headers });
+
+                return response.data;
+            } catch (error) {
+                throw wrapError(error);
+            }
+        },
+        [headers]
+    );
+
+    return { getActiveGame, getUserTickets };
 }
 
 function wrapError(error: unknown) {

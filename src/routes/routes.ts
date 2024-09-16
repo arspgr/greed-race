@@ -4,6 +4,7 @@ import { MainPage } from '../pages/Main/MainPage';
 import { TONConnectPage } from '@/pages/TONConnectPage/TONConnectPage';
 import { InitDataPage } from '@/pages/InitDataPage/InitDataPage';
 import { FeaturesPage } from '@/pages/FeaturesPage/FeaturesPage';
+import { MyTicketsPage } from '@/pages/MyTicketsPage/MyTicketsPage';
 
 interface Route {
   path: string;
@@ -28,5 +29,10 @@ export const routes: Route[] = [
     path: '/features',
     Component: FeaturesPage,
     title: 'features'
+  },
+  {
+    path: '/my-tickets',
+    Component: MyTicketsPage,
+    title: 'My tickets'
   }
 ];

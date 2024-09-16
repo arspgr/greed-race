@@ -3,6 +3,8 @@ import { createContext, FC, PropsWithChildren } from "react";
 
 export interface User {
     id: number;
+    avatarUrl?: string;
+    name: string;
 }
 
 export const UserContext = createContext<User>(undefined!);
@@ -15,6 +17,8 @@ export const UserProvider: FC<PropsWithChildren> = props => {
         throw new Error('InitData or user id is null');
     }
     return <UserContext.Provider value={{
-        id: initData!.user!.id 
+        id: initData!.user!.id,
+        avatarUrl: initData?.user?.photoUrl,
+        name: initData?.user?.username ?? ""
     }}>{children}</UserContext.Provider>
 }

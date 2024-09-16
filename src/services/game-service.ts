@@ -1,7 +1,8 @@
 import { ApiContext } from "@/api/ApiProvider"
 import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
+import { toasterError } from "./notification-service";
 
 export interface GameService {
     activeGame?: GetActiveGameResponse;
@@ -15,6 +16,12 @@ export function useGameService(): GameService {
         queryKey: ['activeGame'],
         queryFn: () => generalApi.getActiveGame(),
     });
+
+    useEffect(() => {
+        if (result.isError) {
+            toasterError('Unable to load data');
+        }
+    }, [result.isError]);
 
     return {
         activeGame: result.data ? {

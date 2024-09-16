@@ -1,0 +1,11 @@
+.user-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.avatar {
+    display: flex;
+    gap: 1vh;
+    align-items: center;
+}

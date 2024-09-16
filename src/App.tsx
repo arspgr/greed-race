@@ -7,6 +7,9 @@ import { routes } from "./routes/routes";
 import { ApiProvider } from "./api/ApiProvider";
 import { AuthProvider } from "./api/Auth/AuthProvider";
 import { UserProvider } from "./api/Auth/UserProvider";
+import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -57,12 +60,15 @@ export const App: FC = () => {
         <UserProvider>
         <AuthProvider>
         <ApiProvider>
-          <Router location={location} navigator={reactNavigator}>
-            <Routes>
-              {routes.map((route) => <Route key={route.path} {...route} />)}
-              <Route path='*' element={<Navigate to='/'/>}/>
-            </Routes>
-          </Router>
+          <div className="app-main">
+              <ToastContainer theme='dark' />
+              <Router location={location} navigator={reactNavigator}>
+                <Routes>
+                  {routes.map((route) => <Route key={route.path} {...route} />)}
+                  <Route path='*' element={<Navigate to='/'/>}/>
+                </Routes>
+              </Router>
+          </div>
         </ApiProvider>
         </AuthProvider>
         </UserProvider>

@@ -1,0 +1,34 @@
+.app-main {
+  padding: 16px;
+
+  --tgui--secondary_hint_color: #fff;
+  --tgui--surface_primary: transparent;
+  --tgui--tertiary_bg_color: transparent;
+  --tgui--caption1--font_size: 3vw;
+  --tgui--caption1--line_height: 3vw;
+  --header_main_color: #FD86D5;
+  --tgui--link_color: var(--header_main_color);
+}
+
+.text-headline {
+  font-size: 5vmin;
+  font-weight: 600;
+}
+
+.text-usual {
+  font-size: var(--tgui--caption1--font_size);
+  font-weight: 400;
+}
+
+.text-small {
+  font-size: 2.5vmin;
+  font-weight: 400;
+}
+
+.tab-main {
+  color: #fff;
+}
+
+.inverted {
+  filter:invert(100%)
+}

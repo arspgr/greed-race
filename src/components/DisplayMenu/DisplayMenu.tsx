@@ -21,7 +21,7 @@ export const DisplayMenu: FC<Props> = props => {
     const { activeTab } = props;
 
     const tabs: MenuItem[] = [{ key: "home", text: "Home", image: homeImage, url: "/" },
-    { key: "how", text: "How it works", image: questionImage, class: "inverted", url: "/" },
+    { key: "how", text: "How it works", image: questionImage, url: "/" },
     { key: "tickets", text: "My tickets", image: ticketImage, url: "/my-tickets" }];
 
     const [currentTab, setCurrentTab] = useState(tabs[0].key);
@@ -40,7 +40,7 @@ export const DisplayMenu: FC<Props> = props => {
     return (
         <Tabbar style={{ padding: '1.5vh 2.5vw 4vh 2.5vw', background: 'black' }}>
             {tabs.map((t) => <Tabbar.Item key={t.key} text={t.text} selected={currentTab === t.text} onClick={() => onTabClicked(t)} style={{ padding: 0 }}>
-                <Image src={t.image} size={28} className={t.class}></Image>
+                <Image src={t.image} size={20} className={t.class}></Image>
             </Tabbar.Item>)}
         </Tabbar>
     );

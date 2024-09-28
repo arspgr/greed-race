@@ -25,20 +25,42 @@
 .ticket-item {
     display: flex;
     border: 1px solid var(--header_main_color);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 1.2vh;
     gap: 2vw;
 }
 
-.ticket-result {
+.ticket-right-side {
     display: flex;
     align-items: center;
-    gap: 1vw;
+    gap: 3vw;
 }
 
 .ticket-items {
     display: flex;
     flex-direction: column;
     gap: 1vh;
-    font-family: 'Joystix Proportional';
+    font-family: "Inter";
+    font-size: 4vmin;
+    background-color: black;
+}
+
+.ticket-id {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 48vw;
+}
+
+.draw-name {
+    font-size: 2vmin;
+}
+
+.ticket-result {
+    font-size: 3vmin;
+}
+
+.ticket-date {
+    color: gray;
+    font-size: 3vmin;
 }

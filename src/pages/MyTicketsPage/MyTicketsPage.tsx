@@ -4,6 +4,7 @@ import './MyTicketsPage.css';
 import { DisplayUser } from "@/components/DisplayUser/DisplayUser";
 import { useTicketService } from "@/services/ticket-service";
 import { Spinner } from "@telegram-apps/telegram-ui";
+import circleEllipsis from '@/images/circle-ellipsis.svg';
 
 export const MyTicketsPage: FC = () => {
     const { tickets, loading } = useTicketService();
@@ -14,25 +15,25 @@ export const MyTicketsPage: FC = () => {
 
             <div className="my-tickets-main">
                 <div className="text-headline my-tickets-header">MY TICKETS</div>
-                <div className="total-profit text-small">Total profit</div>
+                <div className="total-profit text-small inter-font">Total profit</div>
                 <div>
                     {
                         loading ? (
                             <Spinner size="l"></Spinner>
                         ) : !!tickets && tickets.length > 0 ? (
-                            <div className="ticket-items text-small">
+                            <div className="ticket-items inter-font">
                                 {
                                     tickets.map(ticket => {
                                         return (<div key={ticket.id} className="ticket-item">
                                             <div>
-                                                <div>ID: {ticket.id}</div>
-                                                <div>Date: {new Date(ticket.createdAt).toLocaleString()}</div>
-                                                <div>Game: {ticket.gameName}</div>
-                                                <div> Price: {ticket.ticketPrice} {ticket.asset}</div>
+                                                <div className="blue-shadow ticket-id">ID: {ticket.id}</div>
+                                                {/* <div>Date: {new Date(ticket.createdAt).toLocaleString()}</div> */}
+                                                <div className="draw-name">Draw {ticket.gameName}</div>
+                                                <div className="ticket-result">Result: <span style={{ color: getResultColor(ticket.result), fontWeight: 700 }}>{mapResult(ticket.result)}</span></div>
                                             </div>
-                                            <div className="ticket-result">
-                                                <div>Result: <span style={{ color: getResultColor(ticket.result)}}>{mapResult(ticket.result)}</span></div>
-                                                <div>(..)</div>
+                                            <div className="ticket-right-side">
+                                                <div className="ticket-date">{new Date(ticket.createdAt).toLocaleString([], { dateStyle: 'short' })}</div>
+                                                <img src={circleEllipsis}></img>
                                             </div>
                                         </div>)
                                     })
@@ -51,18 +52,20 @@ export const MyTicketsPage: FC = () => {
 
 function mapResult(result?: string) {
     if (!result) {
-        return 'Not started';
+        return 'Waiting for Draw';
     }
     return result;
 }
 
 function getResultColor(result?: string) {
+    const noResult = '#FE01AA';
     if (!result) {
-        return 'gray';
+        return noResult;
     }
 
     switch(result) {
         case 'Not started':
+            return noResult;
         case 'No prize':
             return 'gray';
         default:

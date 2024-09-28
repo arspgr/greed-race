@@ -25,19 +25,19 @@ export const DisplayGame: FC = () => {
                 <Spinner size="l"></Spinner>
             ) : !!activeGame ? (
                 <>
-                    <div className="text-headline welcome-to">WELCOME TO</div>
+                    <div className="text-headline welcome-to">WELCOME <br />TO</div>
                     <img className="logo-img" src={greedRaceImage}></img>
                     <div className="next-draw">
-                        <div className="text-usual blue-shadow">NEXT DRAW</div>
-                        <div className="text-usual blue-shadow">comes in: {<DisplayTimer expiryTimestamp={activeGame.endsAt}></DisplayTimer>}</div>
+                        <div className="text-usual blue-shadow">NEXT DRAW {activeGame.name}</div>
+                        <div className="text-mini blue-shadow">comes in: {<DisplayTimer expiryTimestamp={activeGame.endsAt}></DisplayTimer>}</div>
                     </div>
                     <br></br>
-                    <div className="text-usual blue-shadow prize-pool">PRIZE POOL:</div>
-                    <div className="text-usual">{activeGame.prize.jackpot.value.toString()}x <img className="prize-icon" src={crown}></img> JACKPOT {activeGame.prize.jackpot.cnt.toString()}</div>
-                    <div className="text-usual">{activeGame.prize.major.value.toString()}x <img className="prize-icon" src={moneyBag}></img> MAJOR PRIZES {activeGame.prize.major.cnt.toString()}</div>
-                    <div className="text-usual">{activeGame.prize.minor.value.toString()}x <img className="prize-icon" src={stackOfCoins}></img> MINOR PRIZES {activeGame.prize.minor.cnt.toString()}</div>
+                    <div className="text-medium blue-shadow prize-pool">PRIZE POOL:</div>
+                    <div className="text-mini">{activeGame.prize.jackpot.cnt.toString()}x <img className="prize-icon" src={crown}></img> JACKPOT {activeGame.prize.jackpot.value.toString()}</div>
+                    <div className="text-mini">{activeGame.prize.major.cnt.toString()}x <img className="prize-icon" src={moneyBag}></img> MAJOR PRIZES {activeGame.prize.major.value.toString()}</div>
+                    <div className="text-mini">{activeGame.prize.minor.cnt.toString()}x <img className="prize-icon" src={stackOfCoins}></img> MINOR PRIZES {activeGame.prize.minor.value.toString()}</div>
                     <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div>
-                    <Button onClick={() => buyTicket(tonConnectUI, activeGame.asset, paymentApi, activeGame._id, isAuthorized)}>BUY TICKET FOR {activeGame.ticketPrice}</Button>
+                    <Button className="buy-ticket text-medium" onClick={() => buyTicket(tonConnectUI, activeGame.asset, paymentApi, activeGame._id, isAuthorized)}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
                 </>
             ) : null
         }

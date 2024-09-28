@@ -4,15 +4,15 @@
   --tgui--secondary_hint_color: #fff;
   --tgui--surface_primary: transparent;
   --tgui--tertiary_bg_color: transparent;
-  --tgui--caption1--font_size: 3vw;
+  --tgui--caption1--font_size: 3.4vw;
   --tgui--caption1--line_height: 3vw;
-  --header_main_color: #FD86D5;
+  --header_main_color: #FE01AA;
   --tgui--link_color: var(--header_main_color);
 }
 
 .text-headline {
-  font-size: 5vmin;
-  font-weight: 600;
+  font-size: 8vmin;
+  font-weight: 400;
 }
 
 .text-usual {
@@ -20,8 +20,18 @@
   font-weight: 400;
 }
 
+.text-mini {
+  font-size: 2.8vmin;
+  font-weight: 400;
+}
+
 .text-small {
   font-size: 2.5vmin;
+  font-weight: 400;
+}
+
+.text-medium {
+  font-size: 4vmin;
   font-weight: 400;
 }
 
@@ -31,4 +41,8 @@
 
 .inverted {
   filter:invert(100%)
+}
+
+.blue-shadow {
+  text-shadow: #1CCEF8A1 -3px 3px 10px;
 }

@@ -1,14 +1,11 @@
 .logo-img {
-    width: 50vw;
-    height: 24vh;
-}
-
-.blue-shadow {
-    text-shadow: #1CCEF8A1 -0.4vw 0.4vw 0.4vw;
+    width: 32vw;
+    height: 16vh;
 }
 
 .welcome-to {
     color: var(--header_main_color);
+    text-align: center;
 }
 
 .next-draw {
@@ -16,11 +13,12 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    padding: 1vh;
+    padding: 1vh 3vw 1vh 3vw;
+    gap: 1vh;
 }
 
 .prize-pool {
-    margin-bottom: 1vh;
+    margin-bottom: 1.5vh;
 }
 
 .prize-icon {
@@ -30,6 +28,17 @@
 }
 
 .total-racers {
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
 }
+
+.buy-ticket {
+    border: var(--header_main_color) 3px solid;
+    background-color: #0094E5;
+  
+    h6 {
+      font-weight: 400;
+      font-family: 'Joystix Monospace';
+      font-size: 4vmin;
+    }
+  }

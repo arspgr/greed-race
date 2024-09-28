@@ -11,9 +11,11 @@ export const ApiProvider: FC<PropsWithChildren> = props => {
     const { children } = props;
     const { token } = useContext(AuthContext);
     const user = useContext(UserContext);
-    const generalApi = useGeneralApi(user?.id ?? 1123);
-    const paymentApi = usePaymentApi(user?.id ?? 1123, token);
+
+    const generalApi = useGeneralApi(user.id);
+    const paymentApi = usePaymentApi(user.id, token);
     const api = { paymentApi, generalApi };
+
     return (
         <QueryClientProvider client={queryClient}>
             <ApiContext.Provider value={api}>{children}</ApiContext.Provider>

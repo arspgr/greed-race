@@ -16,34 +16,33 @@ export const MyTicketsPage: FC = () => {
             <div className="my-tickets-main">
                 <div className="text-headline my-tickets-header">MY TICKETS</div>
                 <div className="total-profit text-small inter-font">Total profit</div>
-                <div>
-                    {
-                        loading ? (
-                            <Spinner size="l"></Spinner>
-                        ) : !!tickets && tickets.length > 0 ? (
-                            <div className="ticket-items inter-font">
-                                {
-                                    tickets.map(ticket => {
-                                        return (<div key={ticket.id} className="ticket-item">
-                                            <div>
-                                                <div className="blue-shadow ticket-id">ID: {ticket.id}</div>
-                                                {/* <div>Date: {new Date(ticket.createdAt).toLocaleString()}</div> */}
-                                                <div className="draw-name">Draw {ticket.gameName}</div>
-                                                <div className="ticket-result">Result: <span style={{ color: getResultColor(ticket.result), fontWeight: 700 }}>{mapResult(ticket.result)}</span></div>
+                {
+                    loading ? (
+                        <Spinner size="l"></Spinner>
+                    ) : !!tickets && tickets.length > 0 ? (
+                        <div className="ticket-items inter-font">
+                            {
+                                tickets.map(ticket => {
+                                    return (<div key={ticket.id} className="ticket-item">
+                                        <div>
+                                            <div className="blue-shadow ticket-id">ID: {ticket.id}</div>
+                                            <div className="draw-name">Draw {ticket.gameName}</div>
+                                            <div className="ticket-result">
+                                                Result: <span style={{ color: getResultColor(ticket.status), fontWeight: 700 }}>{mapResult(ticket.status)}</span>
                                             </div>
-                                            <div className="ticket-right-side">
-                                                <div className="ticket-date">{new Date(ticket.createdAt).toLocaleString([], { dateStyle: 'short' })}</div>
-                                                <img src={circleEllipsis}></img>
-                                            </div>
-                                        </div>)
-                                    })
-                                }
-                            </div>
-                        ) : (
-                            <div>You don't have tickets yet</div>
-                        )
-                    }
-                </div>
+                                        </div>
+                                        <div className="ticket-right-side">
+                                            <div className="ticket-date">{new Date(ticket.createdAt).toLocaleString([], { dateStyle: 'short' })}</div>
+                                            <img src={circleEllipsis}></img>
+                                        </div>
+                                    </div>)
+                                })
+                            }
+                        </div>
+                    ) : (
+                        <div>You don't have tickets yet</div>
+                    )
+                }
             </div>
             <DisplayMenu activeTab="My tickets"></DisplayMenu>
         </div>
@@ -51,7 +50,7 @@ export const MyTicketsPage: FC = () => {
 }
 
 function mapResult(result?: string) {
-    if (!result) {
+    if (!result || result === 'Active') {
         return 'Waiting for Draw';
     }
     return result;
@@ -65,9 +64,12 @@ function getResultColor(result?: string) {
 
     switch(result) {
         case 'Not started':
+        case 'Active':
             return noResult;
         case 'No prize':
             return 'gray';
+        case 'PendingPayment':
+            return 'cyan';
         default:
             if (result.startsWith('+'))
                 return 'green';

@@ -9,5 +9,5 @@ export interface UserTicket {
     gameName?: string;
     ticketPrice?: number;
     asset?: string;
-    result?: string;
+    status?: string;
 }

@@ -11,12 +11,14 @@ import { useTonConnectUI } from "@tonconnect/ui-react";
 import { buyTicket } from "@/services/ticket-service";
 import { ApiContext } from "@/api/ApiProvider";
 import { AuthContext } from "@/api/Auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export const DisplayGame: FC = () => {
     const { activeGame, loading } = useGameService();
     const [ tonConnectUI ] = useTonConnectUI();
     const { paymentApi } = useContext(ApiContext);
     const { isAuthorized } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     return (
         <>
@@ -37,7 +39,7 @@ export const DisplayGame: FC = () => {
                     <div className="text-mini">{activeGame.prize.major.cnt.toString()}x <img className="prize-icon" src={moneyBag}></img> MAJOR PRIZES {activeGame.prize.major.value.toString()}</div>
                     <div className="text-mini">{activeGame.prize.minor.cnt.toString()}x <img className="prize-icon" src={stackOfCoins}></img> MINOR PRIZES {activeGame.prize.minor.value.toString()}</div>
                     <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div>
-                    <Button className="buy-ticket text-medium" onClick={() => buyTicket(tonConnectUI, activeGame.asset, paymentApi, activeGame._id, isAuthorized)}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
+                    <Button className="buy-ticket text-medium" onClick={() => buyTicket(tonConnectUI, activeGame.asset, paymentApi, activeGame._id, isAuthorized, navigate)}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
                 </>
             ) : null
         }

@@ -11,6 +11,7 @@
     flex-direction: column;
     align-self: center;
     margin-top: 8vh;
+    width: 100%;
 }
 
 .my-tickets-header {
@@ -28,6 +29,8 @@
     border-radius: 12px;
     padding: 1.2vh;
     gap: 2vw;
+    background-color: black;
+    justify-content: space-between;
 }
 
 .ticket-right-side {
@@ -40,9 +43,10 @@
     display: flex;
     flex-direction: column;
     gap: 1vh;
-    font-family: "Inter";
     font-size: 4vmin;
-    background-color: black;
+    width: 100%;
+    max-height: 52vh;
+    overflow: auto;
 }
 
 .ticket-id {

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { TonConnectUI } from "@tonconnect/ui-react";
 import { useContext, useEffect } from "react";
 import { toasterError } from "./notification-service";
+import { NavigateFunction } from "react-router-dom";
 
 export interface TicketService {
     tickets?: UserTicket[];
@@ -33,12 +34,15 @@ export function useTicketService(): TicketService {
     }
 }
 
-export async function buyTicket(tonConnectUI: TonConnectUI, asset: Asset, api: PaymentApi, gameId: string, isAuthorized: boolean) {
+export async function buyTicket(tonConnectUI: TonConnectUI, asset: Asset, api: PaymentApi, gameId: string, isAuthorized: boolean, navigate: NavigateFunction) {
     if (!isAuthorized) {
         tonConnectUI.openModal();
-        return;
+        return false;
     }
-    const txResp = await sendTransaction(tonConnectUI, asset);
 
+    const txResp = await sendTransaction(tonConnectUI, asset);
     await api.verifyTicket(gameId, txResp.boc);
+    navigate('/my-tickets');
+
+    return true;
 }

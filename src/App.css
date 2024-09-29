@@ -46,3 +46,7 @@
 .blue-shadow {
   text-shadow: #1CCEF8A1 -3px 3px 10px;
 }
+
+.inter-font {
+  font-family: "Inter";
+}

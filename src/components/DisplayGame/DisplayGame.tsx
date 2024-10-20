@@ -38,8 +38,8 @@ export const DisplayGame: FC = () => {
                     <div className="text-mini">{activeGame.prize.jackpot.cnt.toString()}x <img className="prize-icon" src={crown}></img> JACKPOT {activeGame.prize.jackpot.value.toString()}</div>
                     <div className="text-mini">{activeGame.prize.major.cnt.toString()}x <img className="prize-icon" src={moneyBag}></img> MAJOR PRIZES {activeGame.prize.major.value.toString()}</div>
                     <div className="text-mini">{activeGame.prize.minor.cnt.toString()}x <img className="prize-icon" src={stackOfCoins}></img> MINOR PRIZES {activeGame.prize.minor.value.toString()}</div>
-                    <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div>
-                    <Button className="buy-ticket text-medium" onClick={() => buyTicket(tonConnectUI, activeGame.asset, paymentApi, activeGame._id, isAuthorized, navigate)}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
+                    {/* <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div> */}
+                    <Button className="buy-ticket text-medium" onClick={() => buyTicket(tonConnectUI, activeGame.asset, activeGame.ticketPrice, paymentApi, activeGame._id, isAuthorized, navigate)}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
                 </>
             ) : null
         }

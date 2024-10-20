@@ -10,4 +10,7 @@ export interface UserTicket {
     ticketPrice?: number;
     asset?: string;
     status?: string;
+    prize?: number;
+    prizeType?: string;
+    drawDate?: Date;
 }

@@ -1,0 +1,73 @@
+.ticket-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ticket-details-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 8vh;
+    width: 100%;
+}
+
+.ticket-details-header {
+    color: var(--header_main_color);
+    margin-bottom: 7vh;
+}
+
+.ticket-details-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--header_main_color);
+    border-radius: 12px;
+    padding: 2vh 4vw 1vh 4vw;
+    background-color: black;
+    width: 80%;
+}
+
+.ticket-details-status {
+    margin-bottom: 2vh;
+}
+
+.ticket-prize-value {
+    color: green;
+    text-transform: uppercase;
+}
+
+.ticket-prize-info {
+    margin-bottom: 2vh;
+    text-align: center;
+}
+
+.details-ticket-id {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 48vw;
+}
+
+.ticket-props-container {
+    width: 100%;
+}
+
+.ticket-props {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+}
+
+.to-my-tickets {
+    border: 1px solid var(--header_main_color);
+    border-radius: 12px;
+    text-align: center;
+    margin-right: 15%;
+    margin-left: 15%;
+    margin-top: 2vh;
+    padding: 1vh 0.5vw 1vh 0.5vw;
+}

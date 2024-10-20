@@ -29,13 +29,13 @@
 
 .total-racers {
     margin-top: 3vh;
-    margin-bottom: 1vh;
 }
 
 .buy-ticket {
     border: var(--header_main_color) 3px solid;
     background-color: #0094E5;
-  
+    margin-top: 4vh;
+
     h6 {
       font-weight: 400;
       font-family: 'Joystix Monospace';

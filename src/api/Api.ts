@@ -6,6 +6,7 @@ import { GetSessionResponse } from "@/models/getSessionResponse";
 import { GetTokenResponse } from "@/models/getTokenResponse";
 import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 import { GetUserTicketsResponse } from "@/models/getUserTicketsResponse";
+import { GetTicketDetailsResponse } from "@/models/getTicketDetailsResponse";
 
 export interface PaymentApi {
     verifyTicket(gameId: string, boc: string): Promise<void>;
@@ -14,6 +15,7 @@ export interface PaymentApi {
 export interface GeneralApi {
     getActiveGame(): Promise<GetActiveGameResponse>;
     getUserTickets(): Promise<GetUserTicketsResponse>;
+    getTicketDetails(id: string): Promise<GetTicketDetailsResponse>;
 }
 
 export interface Api {
@@ -147,7 +149,20 @@ export function useGeneralApi(userId: number): GeneralApi {
         [headers]
     );
 
-    return { getActiveGame, getUserTickets };
+    const getTicketDetails = useCallback(
+        async (id: string) => {
+            try {
+                const response = await axiosClient.get<GetTicketDetailsResponse>(`/api/ticket/${id}`, { headers });
+
+                return response.data;
+            } catch (error) {
+                throw wrapError(error);
+            }
+        },
+        [headers]
+    );
+
+    return { getActiveGame, getUserTickets, getTicketDetails };
 }
 
 function wrapError(error: unknown) {

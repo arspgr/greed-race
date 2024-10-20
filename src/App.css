@@ -15,6 +15,11 @@
   font-weight: 400;
 }
 
+.text-headline-medium {
+  font-size: 6vmin;
+  font-weight: 400;
+}
+
 .text-usual {
   font-size: var(--tgui--caption1--font_size);
   font-weight: 400;

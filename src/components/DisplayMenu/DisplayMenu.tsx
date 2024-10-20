@@ -20,9 +20,11 @@ interface Props {
 export const DisplayMenu: FC<Props> = props => {
     const { activeTab } = props;
 
-    const tabs: MenuItem[] = [{ key: "home", text: "Home", image: homeImage, url: "/" },
-    { key: "how", text: "How it works", image: questionImage, url: "/" },
-    { key: "tickets", text: "My tickets", image: ticketImage, url: "/my-tickets" }];
+    const tabs: MenuItem[] = [
+        { key: "home", text: "Home", image: homeImage, url: "/" },
+        { key: "how", text: "How it works", image: questionImage, url: "/how-it-works" },
+        { key: "tickets", text: "My tickets", image: ticketImage, url: "/my-tickets" },
+    ];
 
     const [currentTab, setCurrentTab] = useState(tabs[0].key);
     const navigate = useNavigate();

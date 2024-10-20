@@ -6,6 +6,7 @@ import { InitDataPage } from '@/pages/InitDataPage/InitDataPage';
 import { FeaturesPage } from '@/pages/FeaturesPage/FeaturesPage';
 import { MyTicketsPage } from '@/pages/MyTicketsPage/MyTicketsPage';
 import { TicketDetailsPage } from '@/pages/TicketDetails/TicketDetailsPage';
+import { HowItWorksPage } from '@/pages/HowItWorksPage/HowItWorksPage';
 
 interface Route {
   path: string;
@@ -40,5 +41,10 @@ export const routes: Route[] = [
     path: '/ticket/:id',
     Component: TicketDetailsPage,
     title: 'Ticket details'
+  },
+  {
+    path: '/how-it-works',
+    Component: HowItWorksPage,
+    title: 'How it works'
   },
 ];

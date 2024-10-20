@@ -1,0 +1,43 @@
+.hiw-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hiw-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 8vh;
+    width: 100%;
+}
+
+.hiw-header {
+    color: var(--header_main_color);
+    margin-bottom: 3vh;
+}
+
+.hiw-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--header_main_color);
+    border-radius: 12px;
+    padding: 2vh 4vw 1vh 4vw;
+    background-color: black;
+    width: 90%;
+}
+
+.hiw-content-header {
+    margin-bottom: 1vh;
+}
+
+.hiw-text-right {
+    text-align: right;
+}
+
+.hiw-content-text {
+    margin-bottom: 2.5vh;
+}

@@ -1,0 +1,7 @@
+.tab-item {
+    box-shadow: none;
+}
+
+.tab-item * {
+    box-shadow: inherit;
+  }

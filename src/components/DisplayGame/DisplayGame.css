@@ -41,4 +41,20 @@
       font-family: 'Joystix Monospace';
       font-size: 4vmin;
     }
-  }
+}
+
+.prize-table {
+    column-gap: 10px;
+}
+
+.prize-x {
+    color: var(--header_main_color);
+}
+
+.table-spacer {
+    width: 10px;
+}
+
+.prize-cnt {
+    text-align: right;
+}

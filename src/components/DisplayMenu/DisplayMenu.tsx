@@ -1,14 +1,19 @@
 import { FC, useCallback, useEffect, useState } from "react";
-import homeImage from '@/images/home.svg';
-import questionImage from '@/images/question.svg';
-import ticketImage from '@/images/ticket.svg';
+import homeImageWhite from '@/images/Home_white.png';
+import homeImagePink from '@/images/Home_pink.png';
+import howItWorksWhite from '@/images/HowItWorks_white.png';
+import howItWorksPink from '@/images/HowItWorks_pink.png';
+import myTicketsWhite from '@/images/MyTickets_white.png';
+import myTicketsPink from '@/images/MyTickets_pink.png';
 import { Image, Tabbar } from "@telegram-apps/telegram-ui";
 import { useNavigate } from "react-router-dom";
+import './DisplayMenu.css';
 
 interface MenuItem {
     key: string;
     text: string;
     image: string;
+    selectedImage: string;
     class?: string;
     url: string;
 }
@@ -21,9 +26,9 @@ export const DisplayMenu: FC<Props> = props => {
     const { activeTab } = props;
 
     const tabs: MenuItem[] = [
-        { key: "home", text: "Home", image: homeImage, url: "/" },
-        { key: "how", text: "How it works", image: questionImage, url: "/how-it-works" },
-        { key: "tickets", text: "My tickets", image: ticketImage, url: "/my-tickets" },
+        { key: "home", text: "Home", image: homeImageWhite, selectedImage: homeImagePink, url: "/" },
+        { key: "how", text: "How it works", image: howItWorksWhite, selectedImage: howItWorksPink, url: "/how-it-works" },
+        { key: "tickets", text: "My tickets", image: myTicketsWhite, selectedImage: myTicketsPink, url: "/my-tickets" },
     ];
 
     const [currentTab, setCurrentTab] = useState(tabs[0].key);
@@ -41,8 +46,8 @@ export const DisplayMenu: FC<Props> = props => {
 
     return (
         <Tabbar style={{ padding: '1.5vh 2.5vw 4vh 2.5vw', background: 'black' }}>
-            {tabs.map((t) => <Tabbar.Item key={t.key} text={t.text} selected={currentTab === t.text} onClick={() => onTabClicked(t)} style={{ padding: 0 }}>
-                <Image src={t.image} size={20} className={t.class}></Image>
+            {tabs.map((t) => <Tabbar.Item key={t.key} text={t.text} selected={currentTab === t.text} onClick={() => onTabClicked(t)} style={{ padding: 0 }} className="tab-item">
+                <Image src={currentTab === t.text ? t.selectedImage : t.image} size={20} className={t.class}></Image>
             </Tabbar.Item>)}
         </Tabbar>
     );

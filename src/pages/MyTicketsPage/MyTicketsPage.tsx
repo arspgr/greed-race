@@ -28,7 +28,8 @@ export const MyTicketsPage: FC = () => {
                         <div className="ticket-items inter-font">
                             {
                                 tickets.map(ticket => {
-                                    return (<div key={ticket.id} className="ticket-item">
+                                    return (
+                                    <div key={ticket.id} className="ticket-item">
                                         <div>
                                             <div className="blue-shadow ticket-id">ID: {ticket.id}</div>
                                             <div className="draw-name">Draw {ticket.gameName}</div>
@@ -40,7 +41,8 @@ export const MyTicketsPage: FC = () => {
                                             <div className="ticket-date">{new Date(ticket.createdAt).toLocaleString([], { dateStyle: 'short' })}</div>
                                             <img src={circleEllipsis} onClick={() => goToTicketDetails(ticket.id)}></img>
                                         </div>
-                                    </div>)
+                                    </div>
+                                    )
                                 })
                             }
                         </div>
@@ -60,6 +62,8 @@ function mapResult(status?: string, winValue?: number, asset?: string) {
             return 'No Prize';
         case 'Win':
             return `Won! + ${winValue} ${asset}`;
+        case 'Failed':
+            return 'Failed';
         case 'Active':
         default:
             return 'Waiting for Draw'
@@ -81,6 +85,8 @@ function getResultColor(status?: string) {
             return 'cyan';
         case 'Win':
             return 'green';
+        case 'Failed':
+            return 'red';
         default:
             return 'white';
     }

@@ -1,13 +1,12 @@
 import { PaymentApi } from "@/api/Api";
 import { ApiContext } from "@/api/ApiProvider";
 import { sendTransaction } from "@/api/ton/ton";
-import { Asset } from "@/models/getActiveGameResponse";
 import { UserTicket } from "@/models/getUserTicketsResponse";
 import { useQuery } from "@tanstack/react-query";
 import { TonConnectUI } from "@tonconnect/ui-react";
 import { useContext, useEffect } from "react";
 import { toasterError } from "./notification-service";
-import { NavigateFunction, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export interface MyTicketsService {
     tickets?: UserTicket[];
@@ -34,15 +33,18 @@ export function useMyTicketsService(): MyTicketsService {
     }
 }
 
-export async function buyTicket(tonConnectUI: TonConnectUI, asset: Asset, ticketPrice: number, api: PaymentApi, gameId: string, isAuthorized: boolean, navigate: NavigateFunction) {
+export async function buyTicket(tonConnectUI: TonConnectUI, ticketPrice: number, api: PaymentApi, gameId: string, isAuthorized: boolean) {
     if (!isAuthorized) {
         tonConnectUI.openModal();
         return false;
     }
 
-    const txResp = await sendTransaction(tonConnectUI, asset, ticketPrice);
+    const walletData = await api.getWalletData();
+    if (!walletData || walletData.balance <= 0)
+        throw new Error('Balance');
+
+    const txResp = await sendTransaction(tonConnectUI, ticketPrice, walletData.address);
     await api.verifyTicket(gameId, txResp.boc);
-    navigate('/my-tickets');
 
     return true;
 }

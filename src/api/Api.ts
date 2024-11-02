@@ -7,9 +7,11 @@ import { GetTokenResponse } from "@/models/getTokenResponse";
 import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 import { GetUserTicketsResponse } from "@/models/getUserTicketsResponse";
 import { GetTicketDetailsResponse } from "@/models/getTicketDetailsResponse";
+import { GetWalletDataResponse, UserWalletData } from "@/models/getWalletDataResponse";
 
 export interface PaymentApi {
     verifyTicket(gameId: string, boc: string): Promise<void>;
+    getWalletData(): Promise<UserWalletData>;
 }
 
 export interface GeneralApi {
@@ -96,7 +98,20 @@ export function usePaymentApi(userId: number, token?: string): PaymentApi {
         [headers]
     );
 
-    return { verifyTicket };
+    const getWalletData = useCallback(
+        async () => {
+            try {
+                const response = await axiosClient.get<GetWalletDataResponse>(`api/user/wallet`, { headers });
+
+                return response.data.wallet;
+            } catch (error) {
+                throw wrapError(error);
+            }
+        },
+        [headers]
+    )
+
+    return { verifyTicket, getWalletData };
 }
 
 export function useGeneralApi(userId: number): GeneralApi {
@@ -119,22 +134,6 @@ export function useGeneralApi(userId: number): GeneralApi {
         },
         [headers]
     );
-
-    // const getUserTickets = useCallback(
-    //     async () => {
-    //         await new Promise<void>(resolve => setTimeout(() => {
-    //             resolve();
-    //         }, 1000));
-    //         return {
-    //             tickets: [
-    //                 { id: '345234', status: 'Active', result: 'Not started' },
-    //                 { id: '634534', status: 'Archive', result: '+234 TON' },
-    //                 { id: '364356', status: 'Archive', result: 'No prize' }
-    //             ]
-    //         };
-    //     },
-    //     []
-    // );
 
     const getUserTickets = useCallback(
         async () => {

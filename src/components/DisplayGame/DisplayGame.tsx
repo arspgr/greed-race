@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, useCallback, useContext } from "react";
 import greedRaceImage from '@/images/greed-race.png';
 import crown from '@/images/crown.png';
 import moneyBag from '@/images/money-bag.png';
@@ -13,6 +13,7 @@ import { ApiContext } from "@/api/ApiProvider";
 import { AuthContext } from "@/api/Auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { displayDrawDate } from "@/utils/formatDate";
+import { toasterError } from "@/services/notification-service";
 
 export const DisplayGame: FC = () => {
     const { activeGame, loading } = useGameService();
@@ -20,6 +21,23 @@ export const DisplayGame: FC = () => {
     const { paymentApi } = useContext(ApiContext);
     const { isAuthorized } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    const buy = useCallback(async () => {
+        let bought = false;
+        try {
+            bought = await buyTicket(tonConnectUI, activeGame!.ticketPrice, paymentApi, activeGame!._id, isAuthorized);
+        } catch (error: any) {
+            console.error(error);
+            if (error.message === 'Balance') {
+                toasterError('Unable to buy a ticket - insufficient funds');
+            } else {
+                toasterError('Unable to buy a ticket, please try to run your request later');
+            }
+        }
+
+        if (bought)
+            navigate('/my-tickets');
+    }, [tonConnectUI, activeGame, paymentApi, isAuthorized]);
 
     return (
         <>
@@ -61,7 +79,7 @@ export const DisplayGame: FC = () => {
                         </tr>
                     </table>
                     {/* <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div> */}
-                    <Button className="buy-ticket text-medium" onClick={() => buyTicket(tonConnectUI, activeGame.asset, activeGame.ticketPrice, paymentApi, activeGame._id, isAuthorized, navigate)}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
+                    <Button className="buy-ticket text-medium" onClick={() => buy()}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
                 </>
             ) : null
         }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthApi } from "../Api";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 
@@ -18,20 +18,7 @@ export function useAuth(): Auth {
 
     const api = useAuthApi();
 
-    useEffect(() => {
-        tonConnectUI.connectionRestored.then(() => {
-            setConnectionRestored(true);
-        }).catch(() => setConnectionRestored(true));
-    }, []);
-
-    useEffect(() => {
-        if (!connectionRestored) {
-            return;
-        }
-        if (isAuthorized) {
-            return;
-        }
-
+    const authorize = useCallback(() => {
         const token = getToken();
         if (!token) {
             if (tonConnectUI.connected)
@@ -77,14 +64,38 @@ export function useAuth(): Auth {
             }
         }
 
+    }, [tonConnectUI, setAuthorized, setToken]);
+
+    useEffect(() => {
+        tonConnectUI.connectionRestored.then(() => {
+            setConnectionRestored(true);
+        }).catch(() => setConnectionRestored(true));
+    }, []);
+
+    useEffect(() => {
+        if (!connectionRestored) {
+            return;
+        }
+        if (isAuthorized) {
+            return;
+        }
+
+        authorize();
+
         return tonConnectUI.onStatusChange(wallet => {
             console.log("wallet status", wallet);
+            if (wallet === null) {
+                localStorage.clear();
+                setAuthorized(false);
+            }
             if (wallet?.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
                 api.getToken(wallet.connectItems.tonProof.proof, wallet.account).then(response => {
                     saveTokenToLocalStorage(response.token);
                     setAuthorized(true);
                     setToken(response.token);
                 });
+            } else {
+                authorize();
             }
         });
     }, [connectionRestored]);

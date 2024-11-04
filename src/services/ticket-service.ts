@@ -7,6 +7,8 @@ import { TonConnectUI } from "@tonconnect/ui-react";
 import { useContext, useEffect } from "react";
 import { toasterError } from "./notification-service";
 import { useParams } from "react-router-dom";
+import { InsufficientFundsError } from "@/models/InsufficientFundsError";
+import { userTicketsQueryKey } from "@/constants/queries";
 
 export interface MyTicketsService {
     tickets?: UserTicket[];
@@ -17,7 +19,7 @@ export function useMyTicketsService(): MyTicketsService {
     const { generalApi } = useContext(ApiContext);
 
     const result = useQuery({
-        queryKey: ['userTickers'],
+        queryKey: [userTicketsQueryKey],
         queryFn: () => generalApi.getUserTickets(),
     });
 
@@ -41,7 +43,7 @@ export async function buyTicket(tonConnectUI: TonConnectUI, ticketPrice: number,
 
     const walletData = await api.getWalletData();
     if (!walletData || walletData.balance <= 0)
-        throw new Error('Balance');
+        throw new InsufficientFundsError();
 
     const txResp = await sendTransaction(tonConnectUI, ticketPrice, walletData.address);
     await api.verifyTicket(gameId, txResp.boc);

@@ -14,29 +14,37 @@ import { AuthContext } from "@/api/Auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { displayDrawDate } from "@/utils/formatDate";
 import { toasterError } from "@/services/notification-service";
+import { InsufficientFundsError } from "@/models/InsufficientFundsError";
+import { useQueryClient } from "@tanstack/react-query";
+import { userTicketsQueryKey } from "@/constants/queries";
 
 export const DisplayGame: FC = () => {
     const { activeGame, loading } = useGameService();
     const [ tonConnectUI ] = useTonConnectUI();
     const { paymentApi } = useContext(ApiContext);
     const { isAuthorized } = useContext(AuthContext);
+    const queryClient = useQueryClient();
+
     const navigate = useNavigate();
 
     const buy = useCallback(async () => {
         let bought = false;
         try {
             bought = await buyTicket(tonConnectUI, activeGame!.ticketPrice, paymentApi, activeGame!._id, isAuthorized);
-        } catch (error: any) {
+        } catch (error) {
             console.error(error);
-            if (error.message === 'Balance') {
+            if (error instanceof InsufficientFundsError) {
                 toasterError('Unable to buy a ticket - insufficient funds');
             } else {
                 toasterError('Unable to buy a ticket, please try to run your request later');
             }
         }
 
-        if (bought)
+        if (bought) {
+            await queryClient.invalidateQueries({ queryKey: [userTicketsQueryKey] });
+            await queryClient.refetchQueries({ queryKey: [userTicketsQueryKey] });
             navigate('/my-tickets');
+        }
     }, [tonConnectUI, activeGame, paymentApi, isAuthorized]);
 
     return (
@@ -56,27 +64,29 @@ export const DisplayGame: FC = () => {
                     <br></br>
                     <div className="text-medium blue-shadow prize-pool">PRIZE POOL:</div>
                     <table className="prize-table">
-                        <tr>
-                            <td><div className="text-mini"><img className="prize-icon" src={crown}></img> JACKPOT</div></td>
-                            <td className='table-spacer'></td>
-                            <td className='prize-cnt'>{activeGame.prize.jackpot.cnt.toString()}</td>
-                            <td><span className='prize-x'>x</span></td>
-                            <td>{activeGame.prize.jackpot.value.toString()}<span className='text-very-small'> {activeGame.asset.type}</span></td>
-                        </tr>
-                        <tr>
-                            <td><div className="text-mini"><img className="prize-icon" src={moneyBag}></img> MAJOR PRIZES</div></td>
-                            <td className='table-spacer'></td>
-                            <td className='prize-cnt'>{activeGame.prize.major.cnt.toString()}</td>
-                            <td><span className='prize-x'>x</span></td>
-                            <td>{activeGame.prize.major.value.toString()}<span className='text-very-small'> {activeGame.asset.type}</span></td>
-                        </tr>
-                        <tr>
-                            <td><div className="text-mini"><img className="prize-icon" src={stackOfCoins}></img> MINOR PRIZES</div></td>
-                            <td className='table-spacer'></td>
-                            <td className='prize-cnt'>{activeGame.prize.minor.cnt.toString()}</td>
-                            <td><span className='prize-x'>x</span></td>
-                            <td>{activeGame.prize.minor.value.toString()}<span className='text-very-small'> {activeGame.asset.type}</span></td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td><div className="text-mini"><img className="prize-icon" src={crown}></img> JACKPOT</div></td>
+                                <td className='table-spacer'></td>
+                                <td className='prize-cnt'>{activeGame.prize.jackpot.cnt.toString()}</td>
+                                <td><span className='prize-x'>x</span></td>
+                                <td>{activeGame.prize.jackpot.value.toString()}<span className='text-very-small'> {activeGame.asset.type}</span></td>
+                            </tr>
+                            <tr>
+                                <td><div className="text-mini"><img className="prize-icon" src={moneyBag}></img> MAJOR PRIZES</div></td>
+                                <td className='table-spacer'></td>
+                                <td className='prize-cnt'>{activeGame.prize.major.cnt.toString()}</td>
+                                <td><span className='prize-x'>x</span></td>
+                                <td>{activeGame.prize.major.value.toString()}<span className='text-very-small'> {activeGame.asset.type}</span></td>
+                            </tr>
+                            <tr>
+                                <td><div className="text-mini"><img className="prize-icon" src={stackOfCoins}></img> MINOR PRIZES</div></td>
+                                <td className='table-spacer'></td>
+                                <td className='prize-cnt'>{activeGame.prize.minor.cnt.toString()}</td>
+                                <td><span className='prize-x'>x</span></td>
+                                <td>{activeGame.prize.minor.value.toString()}<span className='text-very-small'> {activeGame.asset.type}</span></td>
+                            </tr>
+                        </tbody>
                     </table>
                     {/* <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div> */}
                     <Button className="buy-ticket text-medium" onClick={() => buy()}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>

@@ -64,6 +64,8 @@ function mapResult(status?: string, winValue?: number, asset?: string) {
             return `Won! + ${winValue} ${asset}`;
         case 'Failed':
             return 'Failed';
+        case 'PendingPayment':
+            return 'Pending Payment';
         case 'Active':
         default:
             return 'Waiting for Draw'

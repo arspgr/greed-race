@@ -30,7 +30,7 @@ export const DisplayGame: FC = () => {
     const buy = useCallback(async () => {
         let bought = false;
         try {
-            bought = await buyTicket(tonConnectUI, activeGame!.ticketPrice, paymentApi, activeGame!._id, isAuthorized);
+            bought = await buyTicket(tonConnectUI, paymentApi, isAuthorized, activeGame!);
         } catch (error) {
             console.error(error);
             if (error instanceof InsufficientFundsError) {
@@ -91,7 +91,12 @@ export const DisplayGame: FC = () => {
                     {/* <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div> */}
                     <Button className="buy-ticket text-medium" onClick={() => buy()}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
                 </>
-            ) : null
+            ) : (
+                <>
+                    <div className="text-headline welcome-to">WELCOME <br />TO</div>
+                    <img className="logo-img" src={greedRaceImage}></img>
+                </>
+            )
         }
         </>
     );

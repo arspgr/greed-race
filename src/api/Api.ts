@@ -15,7 +15,7 @@ export interface PaymentApi {
 }
 
 export interface GeneralApi {
-    getActiveGame(): Promise<GetActiveGameResponse>;
+    getActiveGame(): Promise<GetActiveGameResponse | null>;
     getUserTickets(): Promise<GetUserTicketsResponse>;
     getTicketDetails(id: string): Promise<GetTicketDetailsResponse>;
 }
@@ -129,6 +129,9 @@ export function useGeneralApi(userId: number): GeneralApi {
 
                 return response.data;
             } catch (error) {
+                if (error instanceof AxiosError && error.response?.status === 404) {
+                    return null;
+                }
                 throw wrapError(error);
             }
         },

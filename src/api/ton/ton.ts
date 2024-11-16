@@ -1,9 +1,9 @@
 import { Address, beginCell, toNano } from '@ton/ton'
-import { TonConnectUI } from '@tonconnect/ui-react';
+import { SendTransactionRequest, TonConnectUI } from '@tonconnect/ui-react';
 
 const destination = 'UQAMFgj6n8LGovZ1FpD09Mhe0sAfwjAo2Lr1o2rwR1_8R6Hq';
 
-export async function sendTransaction(tonConnectUI: TonConnectUI, amount: number, jettonAddress: string) {
+export async function sendJettonTransaction(tonConnectUI: TonConnectUI, amount: number, jettonAddress: string) {
 
     //const destGram = getJettonAddress(destination, gramWalletCode, gramMasterAddress);
     // const forwardPayload = beginCell()
@@ -65,5 +65,18 @@ export async function sendTransaction(tonConnectUI: TonConnectUI, amount: number
             }
         ],
     }
+    return await tonConnectUI.sendTransaction(transaction);
+}
+
+export async function sendTonTransaction(tonConnectUI: TonConnectUI, amount: number) {
+    const transaction: SendTransactionRequest = {
+        validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
+        messages: [
+          {
+            address: destination,
+            amount: String(toNano(amount)), // Toncoin in nanotons
+          },
+        ]
+    };
     return await tonConnectUI.sendTransaction(transaction);
 }

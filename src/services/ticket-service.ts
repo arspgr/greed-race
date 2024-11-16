@@ -1,6 +1,6 @@
 import { PaymentApi } from "@/api/Api";
 import { ApiContext } from "@/api/ApiProvider";
-import { sendTransaction } from "@/api/ton/ton";
+import { sendJettonTransaction, sendTonTransaction } from "@/api/ton/ton";
 import { UserTicket } from "@/models/getUserTicketsResponse";
 import { useQuery } from "@tanstack/react-query";
 import { TonConnectUI } from "@tonconnect/ui-react";
@@ -9,6 +9,7 @@ import { toasterError } from "./notification-service";
 import { useParams } from "react-router-dom";
 import { InsufficientFundsError } from "@/models/InsufficientFundsError";
 import { userTicketsQueryKey } from "@/constants/queries";
+import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 
 export interface MyTicketsService {
     tickets?: UserTicket[];
@@ -35,7 +36,7 @@ export function useMyTicketsService(): MyTicketsService {
     }
 }
 
-export async function buyTicket(tonConnectUI: TonConnectUI, ticketPrice: number, api: PaymentApi, gameId: string, isAuthorized: boolean) {
+export async function buyTicket(tonConnectUI: TonConnectUI, api: PaymentApi, isAuthorized: boolean, game: GetActiveGameResponse) {
     if (!isAuthorized) {
         tonConnectUI.openModal();
         return false;
@@ -45,8 +46,8 @@ export async function buyTicket(tonConnectUI: TonConnectUI, ticketPrice: number,
     if (!walletData || walletData.balance <= 0)
         throw new InsufficientFundsError();
 
-    const txResp = await sendTransaction(tonConnectUI, ticketPrice, walletData.address);
-    await api.verifyTicket(gameId, txResp.boc);
+    const txResp = game.asset.type.toLowerCase() === 'ton' ? await sendTonTransaction(tonConnectUI, game.ticketPrice) : await sendJettonTransaction(tonConnectUI, game.ticketPrice, walletData.address);
+    await api.verifyTicket(game._id, txResp.boc);
 
     return true;
 }

@@ -17,6 +17,7 @@ import { toasterError } from "@/services/notification-service";
 import { InsufficientFundsError } from "@/models/InsufficientFundsError";
 import { useQueryClient } from "@tanstack/react-query";
 import { userTicketsQueryKey } from "@/constants/queries";
+import { notificationHaptic } from "@/utils/haptics";
 
 export const DisplayGame: FC = () => {
     const { activeGame, loading } = useGameService();
@@ -43,6 +44,7 @@ export const DisplayGame: FC = () => {
         if (bought) {
             await queryClient.invalidateQueries({ queryKey: [userTicketsQueryKey] });
             await queryClient.refetchQueries({ queryKey: [userTicketsQueryKey] });
+            notificationHaptic();
             navigate('/my-tickets');
         }
     }, [tonConnectUI, activeGame, paymentApi, isAuthorized]);

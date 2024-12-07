@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom/client';
 import '@telegram-apps/telegram-ui/dist/styles.css';
-import './mockEnv';
 import { Root } from './components/Root';
 import './index.css';
 

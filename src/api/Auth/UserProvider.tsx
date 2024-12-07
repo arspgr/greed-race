@@ -1,4 +1,4 @@
-import { useInitData } from "@telegram-apps/sdk-react";
+import { initData, useSignal } from "@telegram-apps/sdk-react";
 import { createContext, FC, PropsWithChildren } from "react";
 
 export interface User {
@@ -11,14 +11,14 @@ export const UserContext = createContext<User>(undefined!);
 
 export const UserProvider: FC<PropsWithChildren> = props => {
     const { children } = props;
-    const initData = useInitData();
+    const initDataState = useSignal(initData.state);
 
-    if (!initData || !initData.user?.id) {
+    if (!initData || !initDataState?.user?.id) {
         throw new Error('InitData or user id is null');
     }
     return <UserContext.Provider value={{
-        id: initData!.user!.id,
-        avatarUrl: initData?.user?.photoUrl,
-        name: initData?.user?.username ?? ""
+        id: initDataState!.user!.id,
+        avatarUrl: initDataState?.user?.photoUrl,
+        name: initDataState?.user?.username ?? ""
     }}>{children}</UserContext.Provider>
 }

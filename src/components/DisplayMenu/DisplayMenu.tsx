@@ -8,6 +8,7 @@ import myTicketsPink from '@/images/MyTickets_pink.png';
 import { Image, Tabbar } from "@telegram-apps/telegram-ui";
 import { useNavigate } from "react-router-dom";
 import './DisplayMenu.css';
+import { simpleHaptic } from "@/utils/haptics";
 
 interface MenuItem {
     key: string;
@@ -37,6 +38,7 @@ export const DisplayMenu: FC<Props> = props => {
     const onTabClicked = useCallback((item: MenuItem) => {
         setCurrentTab(item.text);
         navigate(item.url);
+        simpleHaptic();
     }, []);
 
     useEffect(() => {

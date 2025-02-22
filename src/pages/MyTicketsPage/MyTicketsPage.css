@@ -1,9 +1,3 @@
-.my-tickets-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .my-tickets-main {
     display: flex;
     justify-content: center;

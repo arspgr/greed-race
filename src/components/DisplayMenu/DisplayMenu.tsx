@@ -5,6 +5,8 @@ import howItWorksWhite from '@/images/HowItWorks_white.png';
 import howItWorksPink from '@/images/HowItWorks_pink.png';
 import myTicketsWhite from '@/images/MyTickets_white.png';
 import myTicketsPink from '@/images/MyTickets_pink.png';
+import peopleWhite from '@/images/People.png';
+import peoplePink from '@/images/PeoplePink.png';
 import { Image, Tabbar } from "@telegram-apps/telegram-ui";
 import { useNavigate } from "react-router-dom";
 import './DisplayMenu.css';
@@ -29,6 +31,7 @@ export const DisplayMenu: FC<Props> = props => {
     const tabs: MenuItem[] = [
         { key: "home", text: "Home", image: homeImageWhite, selectedImage: homeImagePink, url: "/" },
         { key: "how", text: "How it works", image: howItWorksWhite, selectedImage: howItWorksPink, url: "/how-it-works" },
+        { key: "players", text: "Players", image: peopleWhite, selectedImage: peoplePink, url: "/players" },
         { key: "tickets", text: "My tickets", image: myTicketsWhite, selectedImage: myTicketsPink, url: "/my-tickets" },
     ];
 

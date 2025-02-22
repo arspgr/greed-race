@@ -1,5 +1,5 @@
 export interface GetActiveGameResponse {
-    _id: string;
+    id: string;
     name: string;
     asset: Asset;
     ticketPrice: number;
@@ -7,6 +7,7 @@ export interface GetActiveGameResponse {
     status: 'pending' | 'completed';
     endsAt: Date;
     prize: PrizeInfo;
+    playersTotal?: number;
 }
 
 export interface Asset {

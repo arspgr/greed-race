@@ -25,15 +25,41 @@ export function useGameService(): GameService {
 
     return {
         activeGame: result.data ? {
-            _id: result.data._id,
+            id: result.data.id,
             asset: result.data.asset,
             createdAt: result.data.createdAt,
             name: result.data.name,
             prize: result.data.prize,
             status: result.data.status,
             ticketPrice: result.data.ticketPrice,
-            endsAt: new Date(result.data.endsAt)
+            endsAt: new Date(result.data.endsAt),
+            playersTotal: result.data.playersTotal
         } : undefined,
         loading: result.isFetching,
     };
 };
+
+export interface GameDetailsService {
+    playerNames: string[];
+    loading: boolean;
+}
+
+export function useGameDetailsService(): GameDetailsService {
+    const { generalApi } = useContext(ApiContext);
+
+    const result = useQuery({
+        queryKey: ['gameDetails'],
+        queryFn: () => generalApi.getGameDetails(),
+    });
+
+    useEffect(() => {
+        if (result.isError) {
+            toasterError('Unable to load data');
+        }
+    }, [result.isError]);
+
+    return {
+        playerNames: result.data?.playerNames ?? [],
+        loading: result.isLoading
+    }
+}

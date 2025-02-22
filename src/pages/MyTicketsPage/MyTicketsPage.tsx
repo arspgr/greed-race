@@ -15,7 +15,7 @@ export const MyTicketsPage: FC = () => {
     const goToTicketDetails = (id: string) => navigate(`/ticket/${id}`);
 
     return (
-        <div className="my-tickets-container">
+        <div>
             <DisplayUser></DisplayUser>
 
             <div className="my-tickets-main">

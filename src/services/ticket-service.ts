@@ -47,7 +47,7 @@ export async function buyTicket(tonConnectUI: TonConnectUI, api: PaymentApi, isA
         throw new InsufficientFundsError();
 
     const txResp = game.asset.type.toLowerCase() === 'ton' ? await sendTonTransaction(tonConnectUI, game.ticketPrice) : await sendJettonTransaction(tonConnectUI, game.ticketPrice, walletData.address);
-    await api.verifyTicket(game._id, txResp.boc);
+    await api.verifyTicket(game.id, txResp.boc);
 
     return true;
 }

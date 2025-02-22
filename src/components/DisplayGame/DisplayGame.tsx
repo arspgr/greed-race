@@ -90,7 +90,7 @@ export const DisplayGame: FC = () => {
                             </tr>
                         </tbody>
                     </table>
-                    {/* <div className="text-usual blue-shadow total-racers">TOTAL RACERS</div> */}
+                    <div className="text-usual blue-shadow total-racers">TOTAL RACERS: {activeGame.playersTotal}</div>
                     <Button className="buy-ticket text-medium" onClick={() => buy()}>BUY TICKET FOR {activeGame.ticketPrice} {activeGame.asset.type}</Button>
                 </>
             ) : (
@@ -103,6 +103,3 @@ export const DisplayGame: FC = () => {
         </>
     );
 }
-
-
-

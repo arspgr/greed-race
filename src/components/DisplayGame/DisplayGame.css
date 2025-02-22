@@ -34,7 +34,7 @@
 .buy-ticket {
     border: var(--header_main_color) 3px solid;
     background-color: #0094E5;
-    margin-top: 4vh;
+    margin-top: 0.5vh;
 
     h6 {
       font-weight: 400;

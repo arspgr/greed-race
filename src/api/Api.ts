@@ -8,6 +8,8 @@ import { GetActiveGameResponse } from "@/models/getActiveGameResponse";
 import { GetUserTicketsResponse } from "@/models/getUserTicketsResponse";
 import { GetTicketDetailsResponse } from "@/models/getTicketDetailsResponse";
 import { GetWalletDataResponse, UserWalletData } from "@/models/getWalletDataResponse";
+import { User } from "./Auth/UserProvider";
+import { GetGameDetailsResponse } from "@/models/getGameDetailsResponse";
 
 export interface PaymentApi {
     verifyTicket(gameId: string, boc: string): Promise<void>;
@@ -16,6 +18,7 @@ export interface PaymentApi {
 
 export interface GeneralApi {
     getActiveGame(): Promise<GetActiveGameResponse | null>;
+    getGameDetails(): Promise<GetGameDetailsResponse | null>;
     getUserTickets(): Promise<GetUserTicketsResponse>;
     getTicketDetails(id: string): Promise<GetTicketDetailsResponse>;
 }
@@ -76,26 +79,26 @@ export function useAuthApi(): AuthApi {
     return { getSession, getToken };
 }
 
-export function usePaymentApi(userId: number, token?: string): PaymentApi {
+export function usePaymentApi(user: User, token?: string): PaymentApi {
     const headers = useMemo(
         () => ({
-            User: userId,
+            User: user.id,
             Authorization: `Bearer ${token}`
         }),
-        [userId, token]
+        [user.id, token]
     );
 
     const verifyTicket = useCallback(
         async (gameId: string, boc: string) => {
             try {
-                const response = await axiosClient.post<void>(`api/ticket/verify`, { gameId, boc }, { headers });
+                const response = await axiosClient.post<void>(`api/ticket/verify`, { gameId, boc, userName: user.name }, { headers });
 
                 return response.data;
             } catch (error) {
                 throw wrapError(error);
             }
         },
-        [headers]
+        [headers, user.name]
     );
 
     const getWalletData = useCallback(
@@ -164,7 +167,20 @@ export function useGeneralApi(userId: number): GeneralApi {
         [headers]
     );
 
-    return { getActiveGame, getUserTickets, getTicketDetails };
+    const getGameDetails = useCallback(
+        async () => {
+            try {
+                const response = await axiosClient.get<GetGameDetailsResponse>('api/game/players/names', { headers });
+
+                return response.data;
+            } catch (error) {
+                throw wrapError(error);
+            }
+        },
+        [headers]
+    )
+
+    return { getActiveGame, getUserTickets, getTicketDetails, getGameDetails };
 }
 
 function wrapError(error: unknown) {

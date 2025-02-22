@@ -13,7 +13,7 @@ export const ApiProvider: FC<PropsWithChildren> = props => {
     const user = useContext(UserContext);
 
     const generalApi = useGeneralApi(user.id);
-    const paymentApi = usePaymentApi(user.id, token);
+    const paymentApi = usePaymentApi(user, token);
     const api = { paymentApi, generalApi };
 
     return (
